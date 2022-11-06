@@ -77,7 +77,7 @@ router.get('/login' , (req,res) => {
 
 router.post('/login' , (req,res) => {
 	if(req.body.action && req.body.action == 'student') {
-		res.redirect('/studentlogin')
+		res.redirect('/studentlogin') 
 	}	
 	if(req.body.action && req.body.action == 'admin') {
 		res.redirect('/adminlogin')
@@ -206,7 +206,9 @@ router.get('/adminpanel', (req,res) => {
 
 
 router.post('/adminpanel', (req,res) => {
-	 
+	 if(req.body.action && req.body.action == 'logout'){ 
+		 res.redirect('/login');
+	 }
 })
 
 router.get('/studentpanel', (req,res) => {
@@ -220,7 +222,9 @@ router.get('/studentpanel', (req,res) => {
 
 
 router.post('/studentpanel', (req,res) => {
-	 
+	 if(req.body.action && req.body.action == 'logout'){ 
+		 res.redirect('/login')
+	 }
 })
 
 

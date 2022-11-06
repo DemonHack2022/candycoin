@@ -6,7 +6,7 @@ html
 		link(rel = 'stylesheet' , href = 'bootstrap-5.0.2-dist/css/bootstrap.min.css')
 	body
 	.container
-		form(action = "/adminpanel", method = "get")  
+		form(action = "/adminpanel", method = "post")  
 		
 		table#admininfo.table.table-hover.table-striped.table-bordered
 		
@@ -36,6 +36,7 @@ html
 					input(class="btn btn-md btn-success btn-block", type = "submit", name = "action" , value = "add candy") 
 					input(class="btn btn-md btn-success btn-block", type = "submit", name = "action" , value = "remove candy") 
 					input(class="btn btn-md btn-success btn-block", type = "submit", name = "action" , value = "add/subtract coins from student") 
+					input(class="btn btn-md btn-success btn-block", type = "submit", name = "action" , value = "logout") 
 					
 					
 
