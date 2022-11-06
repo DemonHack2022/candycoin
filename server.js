@@ -70,6 +70,14 @@ router.post('/',
 		res.redirect('/')
 
 })   
+
+
+
+router.get('/logout' , (req,res) => {
+	
+	res.redirect('/');
+})
+
  
 router.get('/login' , (req,res) => {
 	res.render('index') 
@@ -223,10 +231,9 @@ router.get('/studentpanel', (req,res) => {
 
 router.post('/studentpanel', (req,res) => {
 	 if(req.body.action && req.body.action == 'logout'){ 
-		 res.redirect('/login')
+		 res.redirect('/logout')
 	 }
 })
-
 
 
 router.get('/adminsignuperror' , (req,res) => {
