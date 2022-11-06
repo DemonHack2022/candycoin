@@ -1,4 +1,4 @@
-# DH2022
+# Candy Coin
 
 ## Inspiration
 With the lack of centralized locations or services for people to trade candy of all ages, a system where students can trade candy with others around the world safely was important to society.
