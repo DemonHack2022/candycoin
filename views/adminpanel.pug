@@ -1,0 +1,41 @@
+doctype html
+
+html
+	head 
+		
+		link(rel = 'stylesheet' , href = 'bootstrap-5.0.2-dist/css/bootstrap.min.css')
+	body
+	.container
+		form(action = "/adminpanel", method = "get")  
+		
+		table#admininfo.table.table-hover.table-striped.table-bordered
+		
+			thead
+				tr 
+					td Candy
+					td Amount
+					td Price 
+			tbody  
+				each candy in candies
+					tr  
+						td #{candy.candyname}
+						td #{candy.candyamount}
+						td #{candy.candyprice} 
+						
+							script(src='https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css')
+							script(src='https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js')
+						
+							script.
+								$(document).ready(function() {
+									$('#admininfo').DataTable(); 
+								}); 
+
+
+				
+				div.actions  
+					input(class="btn btn-md btn-success btn-block", type = "submit", name = "action" , value = "add candy") 
+					input(class="btn btn-md btn-success btn-block", type = "submit", name = "action" , value = "remove candy") 
+					input(class="btn btn-md btn-success btn-block", type = "submit", name = "action" , value = "add/subtract coins from student") 
+					
+					
+

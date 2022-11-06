@@ -20,6 +20,8 @@
   "homepage": "https://github.com/Aahad-A/DH2022#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "bootstrap": "^5.2.2",
+    "datatables.net": "^1.12.1",
     "express": "^4.18.2",
     "node-gyp": "^9.3.0",
     "pg": "^8.8.0",
