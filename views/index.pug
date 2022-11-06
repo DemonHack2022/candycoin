@@ -1,0 +1,19 @@
+doctype html
+   
+html
+
+	head
+	title CandyCoin
+      
+	// stylesheet
+	link(rel = 'stylesheet' , href = '/css/bootstrap.min.css')
+	link(rel = 'stylesheet' , href = '/css/styles.css')
+	link(rel = 'stylesheet', href='index_style.css')  
+
+	body
+		p(style='text-align:center;') Please choose a login option:
+		form(action='/login', method='post', style='margin: auto; width: 150px;')
+			div.actions
+				input(class="btn btn-sm btn-secondary btn-block", type='submit', name='action', value='student')
+				input(class="btn btn-sm btn-secondary btn-block", type='submit', name='action', value='admin')
+				input(class="btn btn-sm btn-secondary btn-block", type='submit', name='action', value='register')  
