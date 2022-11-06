@@ -12,9 +12,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Set the view engine for the express app  
 app.set("view engine", "pug")
-var current_username = "";
-var current_realtorID = 2; 
+var current_username = ""; 
 var student = true; 
+var studentID;
 
 //for parsing application/json
 app.use(bodyParser.json());
@@ -36,18 +36,21 @@ if (process.env.DATABASE_URL != null){
 
    else{
    connectionParams = {
-		user: 'dh',
+		user: 'dh1',
 		host: 'localhost',
-		password: 'Willow5!',
-		database: 'postgres',
-		port: 5432,
-		ssl: true
+		database: 'dh',
+		password: '12345',
+		port: 5432, 
 	}
 }
 
 
 console.log(connectionParams)
 const pool = new pg.Client(connectionParams)
+
+pool.connect(err => {
+    //if (err) throw err; 
+});
  
   
 
@@ -147,21 +150,30 @@ router.get('/studentsignup',  (req,res) => {
 router.post('/studentsignup' ,   async (req,res) => {
 	
 	
-	if( !req.body.username || !req.body.password || !req.body.firstName || !req.body.lastName || !req.body.phoneno || !req.body.email){
+	if( !req.body.sid || !req.body.username || !req.body.password || !req.body.firstName || !req.body.lastName || !req.body.email){
 		
 		res.redirect('/studentsignuperror')
 	}else{
 	 
-	  const hp = await bcrypt.hash(req.body.password, 10)   
+	  const hp = await bcrypt.hash(req.body.password, 10)
+	  const zero = 0;
+	  const empty = "";   
+	  var addCBag = `INSERT INTO ChildBag(CID,CandyName,CandyAmount,CandyPrice)
+			VALUES( '${req.body.sid}' , '${empty}', '${zero}', '${zero}' )`
+	  var addChild = `INSERT INTO Child(studentID,username,password,firstName,lastName,email)
+		VALUES( '${req.body.sid}', '${req.body.username}', '${hp}', '${req.body.firstName}', '${req.body.lastName}',  '${req.body.email}' )`
+	  studentID = req.body.sid;
+	  current_username = req.body.username;  
+	  
+	 pool.query(addCBag, (err,result) => {
+			if( !result ) { return } 
+				console.log(err,result) 
+	 }) 
 	 
-	 pool.query(`INSERT INTO customer(user_name,password,first_name,last_name,phone_number,email)
-		VALUES ( '${req.body.username}', '${hp}', '${req.body.firstName}', '${req.body.lastName}', '${req.body.phoneno}', '${req.body.email}' ) `, (err, result) => {
-		 current_username = req.body.username; 
-		 
-		 res.redirect('/studentlogin')
-		 
-		 } );  
-		
+	 pool.query(addChild ,(err,result) => { 
+					console.log(studentID);
+					 res.redirect('/studentlogin')
+		})
 	}
 	
 })
