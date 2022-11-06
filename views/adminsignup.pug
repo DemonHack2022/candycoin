@@ -1,0 +1,29 @@
+doctype html
+
+html 
+	head 
+		span.h0s(style={color: 'black', 'font-size': '30px', 'tab-size': 12 }) <strong> Create your CandyCoin Teacher Account: <strong>
+		
+		form(action = '/adminsignup', method = "post")  
+			div.input
+				
+				span.h1(style={color: 'black', 'font-size': '16px', 'tab-size': 12 }) <strong>Username<strong>
+				input(type="text",name="username")
+			div.input
+				
+				span.h2(style={color: 'black', 'font-size': '16px', 'tab-size': 12 }) <strong>First Name <strong>
+				input(type = "text", name = "first_name")
+				
+			div.input 
+				span.h2(style={color: 'black', 'font-size': '16px', 'tab-size': 12 }) <strong>Last Name <strong>
+				input(type = "text", name = "last_name")
+			
+			div.input 
+				span.h2(style={color: 'black', 'font-size': '16px', 'tab-size': 12 }) <strong>Password<strong>
+				input(type = "text", name = "password")
+				
+			div.input 
+				span.h2(style={color: 'black', 'font-size': '16px', 'tab-size': 12 }) <strong>Email <strong>
+				input(type = "text", name = "email")
+			div.actions
+				input(class="btn btn-lg btn-secondary btn-block", type = "submit" , id="submitButton", value = "done")
