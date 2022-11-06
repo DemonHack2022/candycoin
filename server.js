@@ -142,6 +142,75 @@ router.get('/adminsignup',  (req,res) => {
 	res.render('adminsignup')
 
 })
+
+router.post('/adminsignup' , async (req,res) => {
+	
+	if( !req.body.tid || !req.body.username || !req.body.password || !req.body.firstName || !req.body.lastName || !req.body.email){
+		
+		res.redirect('/adminsignuperror')
+	}else{
+	 
+	  const hp = await bcrypt.hash(req.body.password, 10)
+	  const zero = 0;
+	  const empty = "";    
+	  var addTeacher = `INSERT INTO Teacher(teacherID,username,password,firstName,lastName,email)
+		VALUES ( '${req.body.tid}', '${req.body.username}', '${hp}', '${req.body.firstName}', '${req.body.lastName}',  '${req.body.email}' )`
+	  
+	  current_username = req.body.username;  
+	  
+	 pool.query(addTeacher, (err,result) => {
+			if( !result ) { 
+				console.log(err,result)
+				return } 
+				console.log(err,result) 
+			res.redirect('/adminlogin')
+	 })  
+	  
+	}
+})
+
+router.get('/adminlogin', (req,res) => {
+	res.render('adminlogin')
+	
+})
+
+router.post('/adminlogin' , (req,res) => {
+	student = false;
+	
+	
+	if(req.body.action && req.body.action == 'login'){ 
+			 pool.query(`SELECT * FROM TEACHER WHERE user_name = '${req.body.username}'`, (err,result) => {
+				console.log(err,result)   
+				if(result.rows.length > 0){
+					var password = result.rows[0].password
+					
+					if(  bcrypt.compareSync(req.body.password, password) ){
+						res.redirect('/adminpanel')
+					}else{
+						
+						res.redirect('/invalid') 
+						console.log(req)
+				}
+			}
+				}); 
+			}
+	
+	
+})
+
+
+router.get('/adminsignuperror' , (req,res) => {
+	res.render('adminsignuperror')
+	
+})
+
+router.post('/adminsignuperror', (req,res) => {
+	if( req.body.action && req.body.action == 'try again' ){ 
+		  res.redirect('/adminsignup')
+	} 
+})
+
+
 router.get('/studentsignup',  (req,res) => {
 	res.render('studentsignup')
 
@@ -157,23 +226,21 @@ router.post('/studentsignup' ,   async (req,res) => {
 	 
 	  const hp = await bcrypt.hash(req.body.password, 10)
 	  const zero = 0;
-	  const empty = "";   
-	  var addCBag = `INSERT INTO ChildBag(CID,CandyName,CandyAmount,CandyPrice)
-			VALUES( '${req.body.sid}' , '${empty}', '${zero}', '${zero}' )`
-	  var addChild = `INSERT INTO Child(studentID,username,password,firstName,lastName,email)
-		VALUES( '${req.body.sid}', '${req.body.username}', '${hp}', '${req.body.firstName}', '${req.body.lastName}',  '${req.body.email}' )`
-	  studentID = req.body.sid;
+	  const empty = "";    
+	  var addStudent = `INSERT INTO Student(studentID,username,password,firstName,lastName,email,coinAmount)
+		VALUES ( '${req.body.sid}', '${req.body.username}', '${hp}', '${req.body.firstName}', '${req.body.lastName}',  '${req.body.email}', '${zero}' )`
+	  studentID = req.body.sid; 
+	  
 	  current_username = req.body.username;  
 	  
-	 pool.query(addCBag, (err,result) => {
-			if( !result ) { return } 
+	 pool.query(addStudent, (err,result) => {
+			if( !result ) { 
+				console.log(err,result)
+				return } 
 				console.log(err,result) 
-	 }) 
-	 
-	 pool.query(addChild ,(err,result) => { 
-					console.log(studentID);
-					 res.redirect('/studentlogin')
-		})
+			res.redirect('/studentlogin')
+	 })  
+	  
 	}
 	
 })
