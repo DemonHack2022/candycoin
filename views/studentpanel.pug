@@ -1,0 +1,29 @@
+doctype html
+
+html
+	head 
+	
+	body
+	 
+		form(action = "/studentpanel", method = "get")  
+		
+		table
+			thead
+				tr 
+					td Candy
+					td Amount
+					td Price 
+			tbody  
+				each candy in candies
+					tr  
+						td #{candy.candyname}
+						td #{candy.candyamount}
+						td #{candy.candyprice} 
+					
+					
+				div.actions  
+					input(class="btn btn-md btn-success btn-block", type = "submit", name = "action" , value = "add") 
+					input(class="btn btn-md btn-success btn-block", type = "submit", name = "action" , value = "spend coins") 
+					input(class="btn btn-md btn-success btn-block", type = "submit", name = "action" , value = "trade with others") 
+					input(class="btn btn-md btn-success btn-block", type = "submit", name = "action" , value = "Friends' list") 
+

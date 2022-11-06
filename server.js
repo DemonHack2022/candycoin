@@ -69,22 +69,7 @@ router.post('/',
 		} 
 		res.redirect('/')
 
-}) 
-
-
-router.get('/invalid', (req,res) => {
-	res.render('invalidlogin')
-	
-})
-
-router.post('/invalid', (req,res) => { 
-	if(realtor){
-		res.redirect('/realtorlogin')
-	}else{
-		res.redirect('/customerlogin')
-	}
-	
-})
+})   
  
 router.get('/login' , (req,res) => {
 	res.render('index') 
@@ -102,21 +87,33 @@ router.post('/login' , (req,res) => {
 	}
 	 
 })
-
-router.get('/adminlogin', (req,res) => {
-	res.render('adminlogin')
-})
-
-router.post('/adminlogin', (req,res) => {
-
-})
+ 
 
 router.get('/studentlogin', (req,res) => {
 	res.render('studentlogin')
 })
 
 router.post('/studentlogin', (req,res) => {
-
+	student = true;  
+	current_username = req.body.username;
+	
+	if(req.body.action && req.body.action == 'login'){  
+			 pool.query(`SELECT * FROM Student WHERE username = '${req.body.username}'`, (err,result) => {
+				console.log(err,result)   
+				if(result.rows.length > 0){
+					var password = result.rows[0].password
+						
+					if(  bcrypt.compareSync(req.body.password, password) ){
+						console.log(result)
+						res.redirect('/studentpanel')
+					}else{ 
+						//res.redirect('/invalid') 
+						console.log(req)
+				}
+			}
+				}); 
+			}
+	
 })
 
 
@@ -175,20 +172,20 @@ router.get('/adminlogin', (req,res) => {
 })
 
 router.post('/adminlogin' , (req,res) => {
-	student = false;
-	
-	
-	if(req.body.action && req.body.action == 'login'){ 
-			 pool.query(`SELECT * FROM TEACHER WHERE user_name = '${req.body.username}'`, (err,result) => {
+	student = false; 
+	current_username = req.body.username;
+	if(req.body.action && req.body.action == 'login'){  
+			 pool.query(`SELECT * FROM Teacher WHERE username = '${req.body.username}'`, (err,result) => {
 				console.log(err,result)   
 				if(result.rows.length > 0){
 					var password = result.rows[0].password
-					
+						
 					if(  bcrypt.compareSync(req.body.password, password) ){
+						console.log(result)
 						res.redirect('/adminpanel')
 					}else{
 						
-						res.redirect('/invalid') 
+						//res.redirect('/invalid') 
 						console.log(req)
 				}
 			}
@@ -197,6 +194,35 @@ router.post('/adminlogin' , (req,res) => {
 	
 	
 })
+
+router.get('/adminpanel', (req,res) => {
+	pool.query(`SELECT * FROM Candy`, (err,candies_results) => {
+			console.log(err, candies_results)
+            res.render('adminpanel', {  
+                     candies: candies_results.rows
+			}); 
+	}); 
+})
+
+
+router.post('/adminpanel', (req,res) => {
+	 
+})
+
+router.get('/studentpanel', (req,res) => {
+	pool.query(`SELECT * FROM Candy`, (err,candies_results) => {
+			console.log(err, candies_results)
+            res.render('studentpanel', {  
+                     candies: candies_results.rows
+			}); 
+	}); 
+})
+
+
+router.post('/studentpanel', (req,res) => {
+	 
+})
+
 
 
 router.get('/adminsignuperror' , (req,res) => {
@@ -209,7 +235,6 @@ router.post('/adminsignuperror', (req,res) => {
 		  res.redirect('/adminsignup')
 	} 
 })
-
 
 router.get('/studentsignup',  (req,res) => {
 	res.render('studentsignup')
